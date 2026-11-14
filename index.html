@@ -1,65 +1,156 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Snake Game</title>
+    <meta name="theme-color" content="#f5f7f4">
+    <title>Expense Tracker — Spend with clarity</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" aria-label="Pennywise home">
+                <span class="brand-mark" aria-hidden="true">p</span>
+                <span>Pennywise</span>
+            </a>
+            <div class="sidebar-label">YOUR MONEY</div>
+            <nav aria-label="Main navigation">
+                <a class="nav-link active" href="#overview" aria-current="page">
+                    <span class="nav-icon" aria-hidden="true">▦</span> Overview
+                </a>
+                <a class="nav-link" href="#transactions">
+                    <span class="nav-icon" aria-hidden="true">↕</span> Transactions
+                </a>
+            </nav>
+            <div class="sidebar-tip">
+                <span class="tip-icon" aria-hidden="true">✦</span>
+                <strong>Small steps add up.</strong>
+                <p>A little awareness today makes a big difference tomorrow.</p>
+            </div>
+            <div class="sidebar-footer"><span class="avatar">P</span><span>Personal account</span></div>
+        </aside>
 
-    <div class="game-container">
-        <header>
-            <h1>🐍 NEON SNAKE</h1>
-            <p>Eat. Grow. Survive.</p>
-        </header>
+        <main class="main-content" id="overview">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR FINANCES, AT A GLANCE</p>
+                    <h1>Good spending starts with <span>clarity.</span></h1>
+                </div>
+                <div class="today-chip"><span class="today-dot"></span><span id="today-label"></span></div>
+            </header>
 
-        <div class="score-board">
-            <div class="score-box">
-                <span>SCORE</span>
-                <h2 id="score">0</h2>
+            <section class="summary-grid" aria-label="Monthly summary">
+                <article class="summary-card spent-card">
+                    <div class="summary-heading"><span>This month</span><span class="card-icon" aria-hidden="true">₹</span></div>
+                    <strong class="summary-value" id="monthly-total">₹0</strong>
+                    <span class="summary-note" id="month-caption">Total expenses</span>
+                </article>
+                <article class="summary-card budget-card">
+                    <div class="summary-heading"><span>Budget left</span><span class="card-icon" aria-hidden="true">⌁</span></div>
+                    <strong class="summary-value" id="budget-left">Set a budget</strong>
+                    <span class="summary-note" id="budget-caption">Set a monthly budget to track your limit</span>
+                </article>
+                <article class="summary-card count-card">
+                    <div class="summary-heading"><span>Transactions</span><span class="card-icon" aria-hidden="true">↗</span></div>
+                    <strong class="summary-value" id="transaction-count">0</strong>
+                    <span class="summary-note">This month</span>
+                </article>
+            </section>
+
+            <div class="content-grid">
+                <section class="panel transactions-panel" id="transactions" aria-labelledby="transactions-title">
+                    <div class="panel-header">
+                        <div>
+                            <p class="eyebrow">YOUR ACTIVITY</p>
+                            <h2 id="transactions-title">Transactions</h2>
+                        </div>
+                        <label class="month-picker">
+                            <span class="visually-hidden">Choose a month</span>
+                            <input id="month-filter" type="month">
+                        </label>
+                    </div>
+                    <div class="transaction-list" id="transaction-list" aria-live="polite"></div>
+                    <div class="empty-state" id="empty-state">
+                        <span class="empty-icon" aria-hidden="true">✦</span>
+                        <strong>No expenses just yet</strong>
+                        <p>Add your first expense to start seeing where your money goes.</p>
+                    </div>
+                </section>
+
+                <aside class="right-column">
+                    <section class="panel spending-panel" aria-labelledby="spending-title">
+                        <div class="panel-header compact-header">
+                            <div>
+                                <p class="eyebrow">SPENDING MIX</p>
+                                <h2 id="spending-title">By category</h2>
+                            </div>
+                        </div>
+                        <div class="chart-wrap">
+                            <div class="donut-chart" id="category-chart" role="img" aria-label="No expenses in this month">
+                                <div class="chart-center"><strong id="chart-total">₹0</strong><span>spent</span></div>
+                            </div>
+                        </div>
+                        <div class="category-legend" id="category-legend"></div>
+                    </section>
+
+                    <section class="panel budget-panel" aria-labelledby="budget-title">
+                        <div class="panel-header compact-header">
+                            <div>
+                                <p class="eyebrow">STAY ON TRACK</p>
+                                <h2 id="budget-title">Monthly budget</h2>
+                            </div>
+                            <span class="budget-icon" aria-hidden="true">◎</span>
+                        </div>
+                        <p class="budget-help">Set a spending limit for the selected month.</p>
+                        <form id="budget-form" class="budget-form">
+                            <label class="visually-hidden" for="budget-input">Monthly budget in rupees</label>
+                            <span aria-hidden="true">₹</span>
+                            <input id="budget-input" type="number" min="0" step="1" inputmode="decimal" placeholder="e.g. 25000">
+                            <button type="submit" aria-label="Save monthly budget">Save</button>
+                        </form>
+                    </section>
+                </aside>
             </div>
 
-            <div class="score-box">
-                <span>HIGH SCORE</span>
-                <h2 id="highScore">0</h2>
-            </div>
-        </div>
-
-        <div class="canvas-wrapper">
-            <canvas id="gameCanvas" width="400" height="400"></canvas>
-
-            <div id="gameMessage" class="game-message">
-                <h2 id="messageTitle">READY?</h2>
-                <p id="messageText">Press Start to play!</p>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button id="startBtn">START GAME</button>
-            <button id="pauseBtn">PAUSE</button>
-        </div>
-
-        <p class="instructions">
-            Use Arrow Keys or WASD to move
-        </p>
-
-        <div class="mobile-controls">
-            <button data-direction="UP">▲</button>
-            <div class="middle-controls">
-                <button data-direction="LEFT">◀</button>
-                <button data-direction="DOWN">▼</button>
-                <button data-direction="RIGHT">▶</button>
-            </div>
-        </div>
-
-        <footer>
-            Designed with HTML, CSS & JavaScript
-        </footer>
+            <section class="panel add-panel" aria-labelledby="add-title">
+                <div class="add-intro">
+                    <span class="add-icon" aria-hidden="true">+</span>
+                    <div><p class="eyebrow">QUICK ENTRY</p><h2 id="add-title">Add an expense</h2></div>
+                </div>
+                <form id="expense-form" class="expense-form">
+                    <label class="field field-description">
+                        <span>Description</span>
+                        <input id="description-input" name="description" type="text" maxlength="60" placeholder="What did you spend on?" required>
+                    </label>
+                    <label class="field">
+                        <span>Amount</span>
+                        <div class="amount-input"><span aria-hidden="true">₹</span><input id="amount-input" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0.00" required></div>
+                    </label>
+                    <label class="field">
+                        <span>Category</span>
+                        <select id="category-input" name="category" required>
+                            <option value="Food">Food</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Health">Health</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </label>
+                    <label class="field">
+                        <span>Date</span>
+                        <input id="date-input" name="date" type="date" required>
+                    </label>
+                    <button class="add-button" type="submit">Add expense <span aria-hidden="true">↗</span></button>
+                </form>
+                <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+                <p class="storage-warning" id="storage-warning" role="status" hidden></p>
+            </section>
+            <footer class="page-footer">Made for mindful money moments <span aria-hidden="true">✦</span></footer>
+        </main>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
-<!-- GitHub pages deployment update -->
